@@ -1,25 +1,19 @@
-  name: CI Pipeline
+name: CI Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  build:
+  forbidden-word-check:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run basic check
-        run: |
-          echo "Running CI checks..."
-          ls
       - name: Fail if forbidden word exists
         run: |
           if grep -R "password" .; then
@@ -27,5 +21,5 @@ jobs:
             exit 1
           else
             echo "✅ No forbidden words found"
-          fi    
-# trigger test
+          fi
+

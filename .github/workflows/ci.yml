@@ -20,8 +20,12 @@ jobs:
         run: |
           echo "Running CI checks..."
           ls
-      - name: Intentional failure
+      - name: Fail if forbidden word exists
         run: |
-          echo "This step will fail"
-          exit 1
+          if grep -R "password" .; then
+            echo "❌ Forbidden word 'password' found"
+            exit 1
+          else
+            echo "✅ No forbidden words found"
+          fi    
 # trigger test

@@ -14,7 +14,9 @@ jobs:
 
       - name: Fail if forbidden word exists
         run: |
-          if grep -R "password" .; then
+          if grep -R "password" . \
+            --exclude-dir=.git \
+            --exclude-dir=.github; then
             echo "❌ Forbidden word 'password' found"
             exit 1
           else

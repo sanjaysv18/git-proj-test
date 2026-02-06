@@ -1,4 +1,4 @@
-name: CI Pipeline
+  name: CI Pipeline
 
 on:
   push:
@@ -20,4 +20,8 @@ jobs:
         run: |
           echo "Running CI checks..."
           ls
+      - name: Intentional failure
+        run: |
+          echo "This step will fail"
+          exit 1
 # trigger test

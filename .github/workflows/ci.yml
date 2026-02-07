@@ -3,23 +3,32 @@ name: CI Pipeline
 on:
   pull_request:
     branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
   forbidden-word-check:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Fail if forbidden word exists
         run: |
           if grep -R "password" . \
             --exclude-dir=.git \
             --exclude-dir=.github; then
-            echo "❌ Forbidden word 'password' found"
+            echo "❌ Forbidden word found"
             exit 1
           else
-            echo "✅ No forbidden words found"
+            echo "✅ Clean code"
           fi
 
+  deploy:
+    needs: forbidden-word-check
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Simulate deployment
+        run: |
+          echo "🚀 Deploying application..."
+          echo "Deployment successful"
